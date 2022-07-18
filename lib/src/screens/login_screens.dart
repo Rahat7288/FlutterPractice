@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget{
           decoration: InputDecoration(
             labelText: 'Enter Email',
             hintText: 'you@mail.com',
-            errorText: snapshot.error.toString(),
+            errorText: snapshot.hasError ? snapshot.error.toString() : "",
           ),
         );
 
@@ -44,13 +44,22 @@ class LoginScreen extends StatelessWidget{
 }
 
   Widget PasswordField(){
-    return TextField(
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: 'Password',
-        hintText: 'Password',
-      ),
+    return StreamBuilder(
+      stream: bloc.password,
+        builder: (context,snapshot){
+        return TextField(
+          onChanged: bloc.changePassword,
+          obscureText: true,
+          decoration: InputDecoration(
+            labelText: 'Password',
+            hintText: 'Password',
+            errorText: snapshot.hasError ? snapshot.error.toString() : "",
+          ),
+        );
+        }
     );
+
+
 }
   Widget SubmitButton(){
     return ElevatedButton(
